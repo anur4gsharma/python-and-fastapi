@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Faceoff{% endblock %} · X</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <a href="/" class="logo">𝕏</a>
+            <nav>
+                <a href="/" class="nav-link {% if active == 'home' %}active{% endif %}">
+                    <span class="nav-icon">🏠</span> Home
+                </a>
+                <a href="/about/0" class="nav-link {% if active == 'about' and index|default(-1) == 0 %}active{% endif %}">
+                    <span class="nav-icon">👤</span> Anurag
+                </a>
+                <a href="/about/1" class="nav-link {% if active == 'about' and index|default(-1) == 1 %}active{% endif %}">
+                    <span class="nav-icon">👤</span> Anmol
+                </a>
+                <a href="/overview/0" class="nav-link {% if active == 'overview' and index|default(-1) == 0 %}active{% endif %}">
+                    <span class="nav-icon">📊</span> Anurag Stats
+                </a>
+                <a href="/overview/1" class="nav-link {% if active == 'overview' and index|default(-1) == 1 %}active{% endif %}">
+                    <span class="nav-icon">📊</span> Anmol Stats
+                </a>
+            </nav>
+        </aside>
+
+        <main class="feed">
+            {% block content %}{% endblock %}
+        </main>
+
+        <aside class="trends">
+            <div class="trends-card">
+                <h2>Trending</h2>
+                <ul>
+                    <li><span class="trend-tag">#AnuragVsAnmol</span><span>Faceoff of the year</span></li>
+                    <li><span class="trend-tag">#StartupDream</span><span>Anurag's grind</span></li>
+                    <li><span class="trend-tag">#IIT2028</span><span>Anmol's target</span></li>
+                </ul>
+            </div>
+            {% if posts is defined %}
+            <div class="trends-card">
+                <h2>Who to follow</h2>
+                {% for post in posts %}
+                <div class="follow-row">
+                    <div class="avatar sm" style="background: {{ post.avatar_color }}">{{ post.name[0] }}</div>
+                    <div>
+                        <strong>{{ post.name }}</strong>
+                        <span>@{{ post.handle }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+</body>
+</html>

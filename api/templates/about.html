@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ person.name }} · About{% endblock %}
+
+{% block content %}
+<header class="page-header profile-header">
+    <a href="/" class="back-link">← Back</a>
+    <div class="profile-banner"></div>
+    <div class="profile-info">
+        <div class="avatar xl" style="background: {{ person.avatar_color }}">{{ person.name[0] }}</div>
+        <h1>{{ person.name }}</h1>
+        <span class="handle">@{{ person.handle }}</span>
+    </div>
+</header>
+
+<article class="post-card">
+    <h2>About</h2>
+    <p class="post-body">{{ person.about }}</p>
+    <div class="meta-row">
+        <span>🎂 Age {{ person.age }}</span>
+        <span>🎯 {{ person.dream }}</span>
+    </div>
+</article>
+
+<div class="profile-links">
+    <a href="/overview/{{ index }}" class="btn btn-primary">View stats overview</a>
+    <a href="/about/{{ 1 - index }}" class="btn btn-ghost">See {{ 'Anmol' if index == 0 else 'Anurag' }}</a>
+</div>
+
+{% include "comments.html" %}
+{% endblock %}
