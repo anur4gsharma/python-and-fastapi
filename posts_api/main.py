@@ -1,10 +1,15 @@
 from typing import Optional
-from fastapi import FastAPI, HTTPException, status, Response
+from fastapi import FastAPI, HTTPException, status, Response, Depends
 from pydantic import BaseModel
 from random import randrange
 import psycopg
 from psycopg.rows import dict_row
 import time
+import models
+from database import engine, get_db
+from sqlalchemy.orm import Session
+
+models.Base.metadata.create_all(engine)
 
 app = FastAPI()
 
@@ -25,10 +30,10 @@ while True :
         print("Error : ", error)
         time.sleep(2)
 
-my_posts: dict[int, dict] = {
-    1: {"id": 1, "title": "title of post 1", "content": "content of post 1"},
-    2: {"id": 2, "title": "foods", "content": "best food to try"}
-}
+@app.get("/sqlalchemy")
+def test_post(db: Session = Depends(get_db)):
+    posts = db.query(models.Post).all()
+    return posts
 
 @app.get("/posts")
 def get_posts():
@@ -38,38 +43,45 @@ def get_posts():
 
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_posts(post: Post):
-    post_dict = post.model_dump()
-    post_id = randrange(0, 1000000)
-    post_dict['id'] = post_id
+    cursor.execute("""INSERT INTO posts (title, content, published) VALUES (%s, %s, %s) RETURNING *""", (post.title, post.content, post.published))
+    posts = cursor.fetchone()
+    conn.commit()
+    posts
+    return {"data": posts}
     
-
-    my_posts[post_id] = post_dict
-    return {"data": post_dict}
 
 @app.get("/posts/{id}")
 def get_post(id: int):
 
-    if id not in my_posts:
+    cursor.execute("""SELECT * FROM posts WHERE id = %s """, (id,))
+    unp = cursor.fetchone()
+
+    if not unp:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
-    return {"data": my_posts[id]}
+
+    return unp
 
 @app.put("/posts/{id}")
 def update_post(id: int, post: Post):
 
-    if id not in my_posts:
+    cursor.execute("""UPDATE posts SET title = %s, content = %s, published = %s WHERE id = %s RETURNING *""", (post.title, post.content, post.published, id))
+    
+    updated_post = cursor.fetchone()
+    conn.commit()
+    
+    if not updated_post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
     
-    updated_post = post.model_dump()
-    updated_post["id"] = id
-    my_posts[id] = updated_post
-    
-    return {"data": my_posts[id]}
+    return {"data": updated_post}
 
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int):
 
-    if id not in my_posts:
+    cursor.execute("""DELETE FROM posts WHERE id = %s""", (id,))
+    post = cursor.fetchone()
+    conn.commit()
+
+    if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Post not found")
     
-    del my_posts[id]
-    return
+    return post

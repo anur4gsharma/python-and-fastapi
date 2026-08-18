@@ -1,7 +1,10 @@
-from organizer import list_files
+from organizer import organize
+from pathlib import Path
+
+dum = Path("Downloads")
 
 def main():
-    list_files(r"file_organizer_python")
+    organize(dum)
 
 if __name__ == "__main__":
     main()

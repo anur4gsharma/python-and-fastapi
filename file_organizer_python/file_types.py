@@ -6,4 +6,5 @@ FILE_TYPES = {
     ".mp4": "Videos",
     ".mp3": "Music",
     ".txt": "Text",
+    ".exe": "Application"
 }

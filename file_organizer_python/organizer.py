@@ -4,24 +4,24 @@ import shutil
 from file_types import FILE_TYPES
 
 
-def organize(folder_path):
-
-    folder = Path(folder_path)
+def organize(folder):
 
     for item in folder.iterdir():
 
-        if not item.is_file():
-            continue
+        if item.is_file():
 
-        extension = item.suffix.lower()
+            extension = item.suffix.lower()
 
-        if extension not in FILE_TYPES:
-            continue
+            if extension in FILE_TYPES:
 
-        category = FILE_TYPES[extension]
+                category = FILE_TYPES[extension]
 
-        destination = folder / category
+                destination = folder / category
 
-        destination.mkdir(exist_ok=True)
+                destination.mkdir(exist_ok=True)
 
-        shutil.move(item, destination / item.name)
+                shutil.move(item, destination / item.name)
+
+        elif item.is_dir():
+
+            organize(item)

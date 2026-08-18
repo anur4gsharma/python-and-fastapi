@@ -1,0 +1,19 @@
+$kind: http-request
+name: UPDATE Specific Post
+description: ""
+url: http://127.0.0.1:8000/posts/2
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"Bruh\",\r
+
+    \    \"content\": \"yeah\",\r
+
+    \    \"published\": \"True\",\r
+
+    \    \"rating\": 5\r
+
+    }"
+order: 6000
