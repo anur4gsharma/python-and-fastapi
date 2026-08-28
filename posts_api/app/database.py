@@ -1,15 +1,15 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.engine import URL
+from config import settings
 
-DATABASE_URL= URL.create(
+DATABASE_URL = URL.create(
     "postgresql+psycopg",
-    username="postgres.ibnsowjvyitjcvgoyvgw",
-    password="Hnsa@2007Anu",
-    host="aws-0-ap-northeast-1.pooler.supabase.com",
-    port=6543,
-    database="postgres",
+    username=settings.database_username,
+    password=settings.database_password,
+    host=settings.database_host,
+    port=settings.database_port,
+    database=settings.database_name,
 )
 
 engine = create_engine(DATABASE_URL)

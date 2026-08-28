@@ -1,15 +1,10 @@
-from jose imoprt jwt, JWTError
+from jose import jwt, JWTError
 from datetime import datetime, timedelta
-# SECRET KEY
-# Algorithm
-# Expiration Time
-
-SECRET_KEY = "hJk0un+LCbyIzl6ZaYpu7iTyETcj+9+N8ajW0sNCy7w="
-
-ALGORITHM = "HS256"
-
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+from config import settings
 
 def create_access_token(data: dict):
     to_encode = data.copy()
+    expire = datetime.now() + timedelta(minutes=settings.access_token_expire_minutes)
+    to_encode.update({"exp": expire})
 
+    jwt.encode(to_encode, settings.secret_key, settings.algorithm)
