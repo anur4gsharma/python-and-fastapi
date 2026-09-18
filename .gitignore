@@ -44,3 +44,7 @@ Thumbs.db
 *.sql
 *.dump
 *.backup
+
+# File organizer temp/downloads
+Downloads/
+tempCodeRunnerFile.py
