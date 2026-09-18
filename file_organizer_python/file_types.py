@@ -1,10 +1,51 @@
 FILE_TYPES = {
+    # Documents
     ".pdf": "PDF",
+    ".doc": "Documents",
+    ".docx": "Documents",
+    ".txt": "Documents",
+    ".rtf": "Documents",
+    ".odt": "Documents",
+    ".xls": "Spreadsheets",
+    ".xlsx": "Spreadsheets",
+    ".csv": "Spreadsheets",
+    ".ppt": "Presentations",
+    ".pptx": "Presentations",
+    # Images
     ".jpg": "Images",
     ".jpeg": "Images",
     ".png": "Images",
+    ".gif": "Images",
+    ".svg": "Images",
+    ".webp": "Images",
+    ".bmp": "Images",
+    # Audio
+    ".mp3": "Audio",
+    ".wav": "Audio",
+    ".aac": "Audio",
+    ".flac": "Audio",
+    ".ogg": "Audio",
+    # Video
     ".mp4": "Videos",
-    ".mp3": "Music",
-    ".txt": "Text",
-    ".exe": "Application"
+    ".mkv": "Videos",
+    ".mov": "Videos",
+    ".avi": "Videos",
+    ".flv": "Videos",
+    ".wmv": "Videos",
+    # Archives
+    ".zip": "Archives",
+    ".rar": "Archives",
+    ".7z": "Archives",
+    ".tar": "Archives",
+    ".gz": "Archives",
+    # Code & Scripts
+    ".py": "Code",
+    ".js": "Code",
+    ".html": "Code",
+    ".css": "Code",
+    ".json": "Code",
+    # Applications
+    ".exe": "Applications",
+    ".msi": "Applications",
+    ".dmg": "Applications",
 }
